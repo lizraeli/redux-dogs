@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getAllBreeds());
     },
     setBreedSearchText: text => {
-      dispatch(setBreedSearchText(text))
+      dispatch(setBreedSearchText(text));
     }
   };
 };
@@ -36,17 +36,21 @@ class DogBreeds extends React.Component {
       this.getDogBreeds();
     }
   }
-  
+
   someSubBreed = (subBreeds, searchText) => {
-    return subBreeds.some(subBreed => subBreed.includes(searchText))
-  }
-  
-  filterBreeds = (breeds, searchText) => { 
-    return breeds.filter(breed => 
-      breed.includes(searchText) 
-      || breed.subBreeds 
-      && someSubBreed(breed.subBreeds))
-  }
+    return subBreeds.some(subBreed =>
+      subBreed.toLowerCase().includes(searchText)
+    );
+  };
+
+  filterBreeds = (breeds, searchText) => {
+    const text = searchText.toLowerCase();
+    return breeds.filter(
+      breed =>
+        breed.name.toLowerCase().includes(text) ||
+        (breed.subBreeds && this.someSubBreed(breed.subBreeds, text))
+    );
+  };
   render() {
     const { breeds, breedSearchText, setBreedSearchText } = this.props;
     const filteredBreeds = this.filterBreeds(breeds, breedSearchText);
@@ -55,13 +59,17 @@ class DogBreeds extends React.Component {
         <Header as="h2" textAlign="center">
           All Breeds
         </Header>
-        <Input label="search" onChange={(e) => setBreedSearchText(e.target.value)} value={breedSearchText} />
-        
-        {breeds.length === 0 ? 
-          <Segment basic> Loading </Segment> 
-          : 
-        <DogBreedList breeds={filteredBreeds} />}
-        
+        <Input
+          label="search"
+          onChange={e => setBreedSearchText(e.target.value)}
+          value={breedSearchText}
+        />
+
+        {breeds.length === 0 ? (
+          <Segment basic> Loading </Segment>
+        ) : (
+          <DogBreedList breeds={filteredBreeds} searchText={breedSearchText} />
+        )}
       </Segment>
     );
   }

@@ -7,8 +7,10 @@ const Home = () => (
       Dog Pictures
     </Header>
     <Segment basic style={{ fontSize: "1.2em" }}>
-      This site is built with react and redux. You may view the source code{" "}
-      <a href=""> here </a>
+      Click or tap on <strong>Random</strong> to see a random dog picture. Click
+      or tap on <strong> Dog Breeds </strong> to see random dog pictures by
+      breed. The source code for this site is available{" "}
+      <a href="https://github.com/lizraeli/redux_dogs"> on github </a>.
     </Segment>
   </Segment>
 );
