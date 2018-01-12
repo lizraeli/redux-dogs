@@ -23,7 +23,7 @@ const DogImage = ({ imageURL }) =>
   imageURL ? (
     <Image alt="" centered rounded bordered src={imageURL} />
   ) : (
-    <Loader active> Loading... </Loader>
+    <Loader active> Fetching Dog... </Loader>
   );
 
 const FetchButton = ({ onClick }) => (
@@ -34,10 +34,14 @@ const FetchButton = ({ onClick }) => (
   </Segment>
 );
 
-const Dog = ({ imageURL, onClick }) => (
+const Dog = ({ title, imageURL, error, onClick }) => (
   <Segment>
     <DogSegment basic>
-      <DogImage imageURL={imageURL} />
+      {error ? (
+        `Error Fetching Dog: ${error} `
+      ) : (
+        <DogImage imageURL={imageURL} />
+      )}
     </DogSegment>
     <FetchButton onClick={onClick} />
   </Segment>

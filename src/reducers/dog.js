@@ -1,7 +1,8 @@
 const defaultState = {
   imageURL: "",
   breed: "",
-  subBreed: ""
+  subBreed: "",
+  error: ""
 };
 
 const imageURL = (state = defaultState, action) => {
@@ -9,7 +10,9 @@ const imageURL = (state = defaultState, action) => {
     case "GET_DOG":
       return defaultState;
     case "SET_DOG":
-      return action.dog;
+      return { ...action.dog, error: "" };
+    case "GET_DOG_ERROR":
+      return { ...defaultState, error: action.error };
     default:
       return state;
   }

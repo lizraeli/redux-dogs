@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import DogBreedList from "../../components/Dogs/DogBreedList";
 import { getAllBreeds } from "../../actions";
+import Header from "semantic-ui-react/dist/commonjs/elements/Header/Header";
 
 const mapStateToProps = state => {
   return {
@@ -21,20 +22,24 @@ const mapDispatchToProps = dispatch => {
 
 class DogBreeds extends React.Component {
   getDogBreeds = () => {
+    console.log("get breeds");
     const { getBreeds } = this.props;
     getBreeds();
   };
 
   componentDidMount() {
-    this.getDogBreeds();
+    if (this.props.breeds.length === 0) {
+      this.getDogBreeds();
+    }
   }
 
   render() {
     const { breeds } = this.props;
-    console.log("dogbreeds props", this.props);
     return (
       <Segment>
-        <h2> All Breeds </h2>
+        <Header as="h2" textAlign="center">
+          All Breeds
+        </Header>
         <DogBreedList breeds={breeds} />
       </Segment>
     );

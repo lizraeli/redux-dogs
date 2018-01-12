@@ -1,5 +1,6 @@
 import React from "react";
 import { Header, Segment } from "semantic-ui-react";
+
 import { connect } from "react-redux";
 
 import Dog from "../../components/Dogs/Dog";
@@ -31,19 +32,20 @@ class RandomDog extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dog.imageURL === this.props.dog.imageURL) {
-      this.getRandomDog();
-    }
+    // if (nextProps.dog.imageURL === this.props.dog.imageURL) {
+    //   this.getRandomDog();
+    // }
   }
 
   render() {
-    const { imageURL } = this.props.dog;
+    console.log(this.props);
+    const { imageURL, error } = this.props.dog;
     return (
       <Segment>
         <Header as="h2" textAlign="center">
           Random Dog Picture
         </Header>
-        <Dog imageURL={imageURL} onClick={this.getRandomDog} />
+        <Dog error={error} imageURL={imageURL} onClick={this.getRandomDog} />
       </Segment>
     );
   }

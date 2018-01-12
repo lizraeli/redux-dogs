@@ -1,30 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { List } from "semantic-ui-react";
+import { List, Item, Loader, Segment } from "semantic-ui-react";
+import styled from "styled-components";
+
+import { capitalize } from "../../utils";
+
+const LargeItem = styled(Item)`
+  font-size: 1.2em;
+`;
 
 const DogBreedList = ({ breeds }) => (
-  <List>
-    {breeds.map(breed => {
-      const { name, subBreeds } = breed;
-      return (
-        <List.Item key={name}>
-          <Link to={`/dogs/breeds/${name}`}>
-            {name[0].toUpperCase() + name.slice(1)}{" "}
-          </Link>
-          {subBreeds.length > 0 ? (
-            <List>
-              {subBreeds.map(subName => (
-                <List.Item key={subName}>
-                  <Link to={`/dogs/breeds/${name}/${subName}`}>{subName} </Link>
-                </List.Item>
-              ))}
-            </List>
-          ) : (
-            ""
-          )}
-        </List.Item>
-      );
-    })}
+  <List celled selection relaxed="very" verticalAlign="bottom">
+    {breeds.length === 0 ? (
+      <Segment basic>
+        <Loader active> </Loader>
+      </Segment>
+    ) : (
+      breeds.map(breed => {
+        const { name, subBreeds } = breed;
+        return (
+          <List.Item key={name}>
+            <Link to={`/dogs/breeds/${name}`}>
+              <LargeItem>{capitalize(name)} </LargeItem>
+            </Link>
+
+            {subBreeds.length ? (
+              <List selection verticalAlign="bottom">
+                {subBreeds.map(subName => (
+                  <List.Item key={subName}>
+                    <Link to={`/dogs/breeds/${name}/${subName}`}>
+                      <LargeItem>{capitalize(subName)}</LargeItem>
+                    </Link>
+                  </List.Item>
+                ))}
+              </List>
+            ) : (
+              ""
+            )}
+          </List.Item>
+        );
+      })
+    )}
   </List>
 );
 

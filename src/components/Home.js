@@ -3,9 +3,13 @@ import { Header, Segment } from "semantic-ui-react";
 
 const Home = () => (
   <Segment>
-    <Header as="h1"> Dog Pictures </Header>
-    Click on Random Dog to see a random dog picture or on Dog Breeds to see a
-    random picture by breed.
+    <Header textAlign="center" as="h1">
+      Dog Pictures
+    </Header>
+    <Segment basic style={{ fontSize: "1.2em" }}>
+      This site is built with react and redux. You may view the source code{" "}
+      <a href=""> here </a>
+    </Segment>
   </Segment>
 );
 

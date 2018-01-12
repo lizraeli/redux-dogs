@@ -1,6 +1,8 @@
 import React from "react";
 
-import { Segment, Header } from "semantic-ui-react";
+import { Segment, Header, Button, Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+
 import { capWords } from "../../utils/";
 
 import { connect } from "react-redux";
@@ -38,6 +40,13 @@ class RandomDogWithBreedAndSub extends React.Component {
 
     return (
       <Segment>
+        <Segment basic>
+          <Button floated="left">
+            <Link to="/dogs/breeds">
+              <Icon name="arrow left" size="small" />
+            </Link>{" "}
+          </Button>
+        </Segment>
         <Header as="h2" textAlign="center">
           {capWords(`${subBreed} ${breed}`)}
         </Header>
