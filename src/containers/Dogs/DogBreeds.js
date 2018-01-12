@@ -1,14 +1,15 @@
 import React from "react";
-import { Segment } from "semantic-ui-react";
+import { Segment, Input } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 import DogBreedList from "../../components/Dogs/DogBreedList";
-import { getAllBreeds } from "../../actions";
+import { getAllBreeds, setBreedSearchText } from "../../actions";
 import Header from "semantic-ui-react/dist/commonjs/elements/Header/Header";
 
 const mapStateToProps = state => {
   return {
-    breeds: state.breeds
+    breeds: state.breeds,
+    breedSearchText: state.breedSearchText
   };
 };
 
@@ -16,6 +17,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getBreeds: breeds => {
       dispatch(getAllBreeds());
+    },
+    setBreedSearchText: text => {
+      dispatch(setBreedSearchText(text))
     }
   };
 };
@@ -32,15 +36,32 @@ class DogBreeds extends React.Component {
       this.getDogBreeds();
     }
   }
-
+  
+  someSubBreed = (subBreeds, searchText) => {
+    return subBreeds.some(subBreed => subBreed.includes(searchText))
+  }
+  
+  filterBreeds = (breeds, searchText) => { 
+    return breeds.filter(breed => 
+      breed.includes(searchText) 
+      || breed.subBreeds 
+      && someSubBreed(breed.subBreeds))
+  }
   render() {
-    const { breeds } = this.props;
+    const { breeds, breedSearchText, setBreedSearchText } = this.props;
+    const filteredBreeds = this.filterBreeds(breeds, breedSearchText);
     return (
       <Segment>
         <Header as="h2" textAlign="center">
           All Breeds
         </Header>
-        <DogBreedList breeds={breeds} />
+        <Input label="search" onChange={(e) => setBreedSearchText(e.target.value)} value={breedSearchText} />
+        
+        {breeds.length === 0 ? 
+          <Segment basic> Loading </Segment> 
+          : 
+        <DogBreedList breeds={filteredBreeds} />}
+        
       </Segment>
     );
   }

@@ -24,6 +24,11 @@ export const setBreeds = breeds => ({
   breeds
 });
 
+export const setBreedSearchText = searchText => ({
+  type: "SET_BREED_SEARCH_TEXT",
+  searchText
+});
+
 export const getRandomDog = () => {
   return dispatch => {
     dispatch(getDog());

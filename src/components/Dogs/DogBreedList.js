@@ -13,7 +13,7 @@ const DogBreedList = ({ breeds }) => (
   <List celled selection relaxed="very" verticalAlign="bottom">
     {breeds.length === 0 ? (
       <Segment basic>
-        <Loader active> </Loader>
+        Breed Not Found...
       </Segment>
     ) : (
       breeds.map(breed => {
