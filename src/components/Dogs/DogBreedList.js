@@ -1,19 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { List, Item, Loader, Segment, Transition } from "semantic-ui-react";
+import { List, Item, Segment, Transition } from "semantic-ui-react";
 import styled from "styled-components";
 
 import { capitalize } from "../../utils";
 
-const LargeItem = styled(Item)`
-  font-size: 1.2em;
-`;
-
-const ExtraLargeItem = styled(Item)`
+const Name = styled(Item)`
+  padding-top: 1.2em;
   font-size: 1.4em;
-  font-weight: 900;
 `;
 
+const PaddedLink = styled(Link)`
+  padding-top: 2em;
+`;
+
+const FilteredSubBreedList = ({ breedName, subBreeds, searchText }) => (
+  <List selection verticalAlign="bottom">
+    {subBreeds.map(
+      subName =>
+        subName.includes(searchText) ? (
+          <List.Item key={subName}>
+            <Link to={`/dogs/breeds/${breedName}/${subName}`}>
+              <Name>{capitalize(subName)}</Name>
+            </Link>
+          </List.Item>
+        ) : (
+          ""
+        )
+    )}
+  </List>
+);
+
+const SubBreedList = ({ breedName, subBreeds }) => (
+  <List selection verticalAlign="bottom">
+    {subBreeds.map(subName => (
+      <List.Item key={subName}>
+        <Link to={`/dogs/breeds/${breedName}/${subName}`}>
+          <Name>{capitalize(subName)}</Name>
+        </Link>
+      </List.Item>
+    ))}
+  </List>
+);
 const DogBreedList = ({ breeds, searchText }) => (
   <Transition.Group
     duration={1000}
@@ -30,25 +58,22 @@ const DogBreedList = ({ breeds, searchText }) => (
         const { name, subBreeds } = breed;
         return (
           <List.Item key={name}>
-            <br />
-            <Link to={`/dogs/breeds/${name}`}>
-              <LargeItem>{capitalize(name)} </LargeItem>
-            </Link>
+            <PaddedLink to={`/dogs/breeds/${name}`}>
+              <Name>{capitalize(name)}</Name>
+            </PaddedLink>
 
-            {subBreeds.length ? (
-              <List selection verticalAlign="bottom">
-                {subBreeds.map(subName => (
-                  <List.Item key={subName}>
-                    <Link to={`/dogs/breeds/${name}/${subName}`}>
-                      {searchText && subName.includes(searchText) ? (
-                        <ExtraLargeItem>{capitalize(subName)}</ExtraLargeItem>
-                      ) : (
-                        <LargeItem>{capitalize(subName)}</LargeItem>
-                      )}
-                    </Link>
-                  </List.Item>
-                ))}
-              </List>
+            {subBreeds.length && searchText ? (
+              <FilteredSubBreedList
+                breedName={name}
+                subBreeds={subBreeds}
+                searchText={searchText}
+              />
+            ) : subBreeds.length ? (
+              <SubBreedList
+                breedName={name}
+                subBreeds={subBreeds}
+                searchText={searchText}
+              />
             ) : (
               ""
             )}

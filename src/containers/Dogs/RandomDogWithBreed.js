@@ -1,7 +1,5 @@
 import React from "react";
-import { Segment, Header, Button, Icon } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-
+import { Segment, Header } from "semantic-ui-react";
 import { capitalize } from "../../utils";
 import { connect } from "react-redux";
 
@@ -38,14 +36,6 @@ class RandomDogWithBreed extends React.Component {
 
     return (
       <Segment>
-        <Segment basic>
-          <Button floated="left">
-            <Link to="/dogs/breeds">
-              <Icon name="arrow left" size="small" />
-            </Link>
-          </Button>
-        </Segment>
-
         <Header as="h2" textAlign="center">
           {capitalize(breed)}
         </Header>

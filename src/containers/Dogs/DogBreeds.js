@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Input } from "semantic-ui-react";
+import { Segment, Input, Loader } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 import DogBreedList from "../../components/Dogs/DogBreedList";
@@ -32,7 +32,8 @@ class DogBreeds extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.breeds.length === 0) {
+    const { breeds } = this.props;
+    if (breeds.breedList.length === 0) {
       this.getDogBreeds();
     }
   }
@@ -53,7 +54,22 @@ class DogBreeds extends React.Component {
   };
   render() {
     const { breeds, breedSearchText, setBreedSearchText } = this.props;
-    const filteredBreeds = this.filterBreeds(breeds, breedSearchText);
+    const { breedList, error } = breeds;
+
+    console.log(breeds);
+    if (error) {
+      return (
+        <Segment>
+          <Header as="h2" textAlign="center">
+            All Breeds
+          </Header>
+          <Segment>Error Fetching Breeds: {error}</Segment>
+        </Segment>
+      );
+    }
+
+    const filteredBreeds = this.filterBreeds(breedList, breedSearchText);
+
     return (
       <Segment>
         <Header as="h2" textAlign="center">
@@ -65,8 +81,10 @@ class DogBreeds extends React.Component {
           value={breedSearchText}
         />
 
-        {breeds.length === 0 ? (
-          <Segment basic> Loading </Segment>
+        {breedList.length === 0 ? (
+          <Segment basic style={{ paddingTop: "10em" }}>
+            <Loader active> Fetching Dog Breeds </Loader>
+          </Segment>
         ) : (
           <DogBreedList breeds={filteredBreeds} searchText={breedSearchText} />
         )}

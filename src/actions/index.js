@@ -24,6 +24,15 @@ export const setBreeds = breeds => ({
   breeds
 });
 
+export const getBreeds = () => ({
+  type: "GET_BREEDS"
+});
+
+export const getBreedsError = error => ({
+  type: "GET_BREEDS_ERROR",
+  error
+});
+
 export const setBreedSearchText = searchText => ({
   type: "SET_BREED_SEARCH_TEXT",
   searchText
@@ -38,7 +47,6 @@ export const getRandomDog = () => {
         dispatch(setDog({ imageURL: response.data.message }));
       })
       .catch(e => {
-        console.log("error: ", e.message);
         dispatch(getDogError(e.message));
       });
   };
@@ -57,8 +65,8 @@ export const getRandomDogWithBreed = breed => {
           })
         );
       })
-      .catch(e => {
-        dispatch(getDogError(e));
+      .catch(err => {
+        dispatch(getDogError(err));
       });
   };
 };
@@ -77,22 +85,28 @@ export const getRandomDogWithBreedAndSub = (breed, subBreed) => {
           })
         );
       })
-      .catch(e => {
-        dispatch(getDogError(e));
+      .catch(err => {
+        dispatch(getDogError(err));
       });
   };
 };
 
 export const getAllBreeds = () => {
   return dispatch => {
-    dogAPI.getAllBreeds().then(response => {
-      const breedDict = response.data.message;
-      const masterBreeds = Object.keys(breedDict);
-      const allBreeds = masterBreeds.map(name => ({
-        name,
-        subBreeds: breedDict[name]
-      }));
-      dispatch(setBreeds(allBreeds));
-    });
+    dispatch(getBreeds());
+    dogAPI
+      .getAllBreeds()
+      .then(response => {
+        const breedDict = response.data.message;
+        const masterBreeds = Object.keys(breedDict);
+        const allBreeds = masterBreeds.map(name => ({
+          name,
+          subBreeds: breedDict[name]
+        }));
+        dispatch(setBreeds(allBreeds));
+      })
+      .catch(err => {
+        dispatch(getBreedsError(err));
+      });
   };
 };

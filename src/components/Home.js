@@ -6,11 +6,11 @@ const Home = () => (
     <Header textAlign="center" as="h1">
       Dog Pictures
     </Header>
-    <Segment basic style={{ fontSize: "1.2em" }}>
+    <Segment basic style={{ fontSize: "1.4em" }}>
       Click or tap on <strong>Random</strong> to see a random dog picture. Click
-      or tap on <strong> Dog Breeds </strong> to see random dog pictures by
-      breed. The source code for this site is available{" "}
-      <a href="https://github.com/lizraeli/redux_dogs"> on github </a>.
+      or tap on <strong> Dog Breeds </strong> to see a random dog picture by
+      breed or sub-breed. The source code for this site is available{" "}
+      <a href="https://github.com/lizraeli/redux-dogs"> on github </a>.
     </Segment>
   </Segment>
 );
