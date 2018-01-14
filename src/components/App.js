@@ -25,7 +25,7 @@ const App = () => (
   <div>
     <Container text>
       <Responsive maxWidth={768}>
-        <NavMenu fluid widths={3} />
+        <NavMenu fluid widths={4} />
       </Responsive>
 
       <Responsive minWidth={768}>
