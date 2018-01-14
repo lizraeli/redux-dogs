@@ -3,7 +3,7 @@ import { Segment, Header } from "semantic-ui-react";
 import { capitalize } from "../../utils";
 import { connect } from "react-redux";
 
-import { getRandomDogWithBreed } from "../../actions";
+import { getRandomDogWithBreed, addToFav, removeFromFav } from "../../actions";
 import Dog from "../../components/Dogs/Dog";
 
 const mapStateToProps = state => {
@@ -16,6 +16,12 @@ const mapDispatchToProps = dispatch => {
   return {
     getDogWithBreed: breed => {
       dispatch(getRandomDogWithBreed(breed));
+    },
+    addToFav: dog => {
+      dispatch(addToFav(dog));
+    },
+    removeFromFav: dog => {
+      dispatch(removeFromFav(dog));
     }
   };
 };
@@ -30,9 +36,17 @@ class RandomDogWithBreed extends React.Component {
     this.getRandomDog();
   }
 
+  toggleFav = () => {
+    const { dog, addToFav, removeFromFav } = this.props;
+    if (dog.isFav) {
+      removeFromFav(dog.imageURL);
+    } else {
+      addToFav(dog);
+    }
+  };
+
   render() {
     const { breed, dog } = this.props;
-    const { imageURL } = dog;
 
     return (
       <Segment>
@@ -41,8 +55,9 @@ class RandomDogWithBreed extends React.Component {
         </Header>
         <Dog
           title={capitalize(breed)}
-          imageURL={imageURL}
+          dog={dog}
           onClick={this.getRandomDog}
+          toggleFav={this.toggleFav}
         />
       </Segment>
     );

@@ -5,7 +5,8 @@ import {
   RandomDog,
   RandomDogWithBreed,
   RandomDogWithBreedAndSub,
-  DogBreeds
+  DogBreeds,
+  Favorites
 } from "../../containers/Dogs";
 
 class App extends React.Component {
@@ -24,6 +25,8 @@ class App extends React.Component {
       <Switch>
         <Route exact path="/dogs/random" component={RandomDog} />
         <Route exact path="/dogs/breeds" component={DogBreeds} />
+        <Route exact path="/dogs/favorites" component={Favorites} />
+
         <Route
           path="/dogs/breeds/:breed/:sub"
           render={this.renderRandomDogWithBreedAndSub}

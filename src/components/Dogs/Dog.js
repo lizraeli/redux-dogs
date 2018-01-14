@@ -26,25 +26,40 @@ const DogImage = ({ imageURL }) =>
     <Loader active> Fetching Dog... </Loader>
   );
 
-const FetchButton = ({ onClick }) => (
-  <Segment basic clearing>
-    <Button floated="right" onClick={onClick}>
-      Another One
-    </Button>
-  </Segment>
+const ToggleFavButton = ({ isFav, toggleFav, isLoading }) => (
+  <Button disabled={isLoading} floated="left" onClick={toggleFav}>
+    {isFav ? "Remove from favorites" : "Add to favorites"}
+  </Button>
 );
 
-const Dog = ({ title, imageURL, error, onClick }) => (
-  <Segment>
-    <DogSegment basic>
-      {error ? (
-        `Error Fetching Dog: ${error} `
-      ) : (
-        <DogImage imageURL={imageURL} />
-      )}
-    </DogSegment>
-    <FetchButton onClick={onClick} />
-  </Segment>
+const FetchButton = ({ onClick, isLoading }) => (
+  <Button disabled={isLoading} floated="right" onClick={onClick}>
+    Another One
+  </Button>
 );
+
+const Dog = ({ dog, onClick, toggleFav }) => {
+  const { imageURL, error, isFav } = dog;
+  return (
+    <Segment>
+      <DogSegment basic>
+        {error ? (
+          `Error Fetching Dog: ${error} `
+        ) : (
+          <DogImage imageURL={imageURL} />
+        )}
+      </DogSegment>
+      <Segment basic clearing>
+        <ToggleFavButton
+          isFav={isFav}
+          toggleFav={toggleFav}
+          isLoading={!imageURL}
+        />
+
+        <FetchButton onClick={onClick} isLoading={!imageURL} />
+      </Segment>
+    </Segment>
+  );
+};
 
 export default Dog;

@@ -15,6 +15,9 @@ const NavMenu = props => (
     <Menu.Item>
       <Link to="/dogs/random">Random</Link>
     </Menu.Item>
+    <Menu.Item>
+      <Link to="/dogs/favorites">Favorites</Link>
+    </Menu.Item>
   </Menu>
 );
 

@@ -4,6 +4,7 @@ import { Header, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 import Dog from "../../components/Dogs/Dog";
+import { FetchButton, ToggleFavButton } from "../../components/Buttons";
 
 import { getRandomDog, addToFav, removeFromFav } from "../../actions";
 
@@ -46,7 +47,7 @@ class RandomDog extends React.Component {
   toggleFav = () => {
     const { dog, addToFav, removeFromFav } = this.props;
     if (dog.isFav) {
-      removeFromFav(dog.imageURL);
+      removeFromFav(dog);
     } else {
       addToFav(dog);
     }
@@ -59,7 +60,18 @@ class RandomDog extends React.Component {
         <Header as="h2" textAlign="center">
           Random Dog Picture
         </Header>
-        <Dog dog={dog} onClick={this.getRandomDog} toggleFav={this.toggleFav} />
+        <Segment />
+        <Segment>
+          <Dog
+            dog={dog}
+            onClick={this.getRandomDog}
+            toggleFav={this.toggleFav}
+          />
+          <Segment basic clearing>
+            <ToggleFavButton isFav={dog.isFav} toggleFav={this.toggleFav} />
+            <FetchButton onClick={this.getRandomDog} />
+          </Segment>
+        </Segment>
       </Segment>
     );
   }

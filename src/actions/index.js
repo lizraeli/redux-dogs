@@ -5,6 +5,16 @@ export const setImageUrl = imageURL => ({
   imageURL
 });
 
+export const addToFav = dog => ({
+  type: "ADD_TO_FAV",
+  dog
+});
+
+export const removeFromFav = imageURL => ({
+  type: "REMOVE_FROM_FAV",
+  imageURL
+});
+
 export const getDog = () => ({
   type: "GET_DOG"
 });
