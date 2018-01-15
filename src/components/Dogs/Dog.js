@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Segment, Loader, Image, Responsive } from "semantic-ui-react";
+import {
+  Button,
+  Segment,
+  Loader,
+  Image,
+  Responsive,
+  Divider,
+  Icon
+} from "semantic-ui-react";
 import styled from "styled-components";
 
 const DogSegment = styled(Segment)`
@@ -26,14 +34,15 @@ const DogImage = ({ imageURL }) =>
     <Loader active> Fetching Dog... </Loader>
   );
 
-const ToggleFavButton = ({ isFav, toggleFav, isLoading, size }) => (
-  <Button disabled={isLoading} floated="left" onClick={toggleFav} size={size}>
+const ToggleFavButton = ({ isFav, toggleFav, isLoading, ...props }) => (
+  <Button disabled={isLoading} floated="left" onClick={toggleFav} {...props}>
+    <Icon name="favorite" />
     {isFav ? "Remove from favorites" : "Add to favorites"}
   </Button>
 );
 
-const FetchButton = ({ onClick, isLoading, size }) => (
-  <Button disabled={isLoading} floated="right" onClick={onClick} size={size}>
+const FetchButton = ({ onClick, isLoading, ...props }) => (
+  <Button disabled={isLoading} floated="right" onClick={onClick} {...props}>
     Another One
   </Button>
 );
@@ -60,13 +69,16 @@ const Dog = ({ dog, onClick, toggleFav }) => {
       </Responsive>
 
       <Responsive maxWidth={768} as={Segment} basic clearing>
-        <ToggleFavButton
-          isFav={isFav}
-          toggleFav={toggleFav}
-          isLoading={!imageURL}
-          size="tiny"
-        />
-        <FetchButton onClick={onClick} isLoading={!imageURL} size="tiny" />
+        <Button.Group vertical fluid size="large">
+          <ToggleFavButton
+            isFav={isFav}
+            toggleFav={toggleFav}
+            isLoading={!imageURL}
+            color="grey"
+          />
+
+          <FetchButton onClick={onClick} isLoading={!imageURL} />
+        </Button.Group>
       </Responsive>
     </Segment>
   );
