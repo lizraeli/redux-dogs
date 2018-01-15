@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Segment, Loader, Image } from "semantic-ui-react";
+import { Button, Segment, Loader, Image, Responsive } from "semantic-ui-react";
 import styled from "styled-components";
 
 const DogSegment = styled(Segment)`
   @media (max-width: 768px) {
-    height: 20em;
+    height: 18em;
   }
 
   @media (min-width: 768px) {
@@ -26,14 +26,14 @@ const DogImage = ({ imageURL }) =>
     <Loader active> Fetching Dog... </Loader>
   );
 
-const ToggleFavButton = ({ isFav, toggleFav, isLoading }) => (
-  <Button disabled={isLoading} floated="left" onClick={toggleFav}>
+const ToggleFavButton = ({ isFav, toggleFav, isLoading, size }) => (
+  <Button disabled={isLoading} floated="left" onClick={toggleFav} size={size}>
     {isFav ? "Remove from favorites" : "Add to favorites"}
   </Button>
 );
 
-const FetchButton = ({ onClick, isLoading }) => (
-  <Button disabled={isLoading} floated="right" onClick={onClick}>
+const FetchButton = ({ onClick, isLoading, size }) => (
+  <Button disabled={isLoading} floated="right" onClick={onClick} size={size}>
     Another One
   </Button>
 );
@@ -49,15 +49,25 @@ const Dog = ({ dog, onClick, toggleFav }) => {
           <DogImage imageURL={imageURL} />
         )}
       </DogSegment>
-      <Segment basic clearing>
+      <Responsive minWidth={768} as={Segment} basic clearing>
         <ToggleFavButton
           isFav={isFav}
           toggleFav={toggleFav}
           isLoading={!imageURL}
+          size="large"
         />
+        <FetchButton onClick={onClick} isLoading={!imageURL} size="large" />
+      </Responsive>
 
-        <FetchButton onClick={onClick} isLoading={!imageURL} />
-      </Segment>
+      <Responsive maxWidth={768} as={Segment} basic clearing>
+        <ToggleFavButton
+          isFav={isFav}
+          toggleFav={toggleFav}
+          isLoading={!imageURL}
+          size="tiny"
+        />
+        <FetchButton onClick={onClick} isLoading={!imageURL} size="tiny" />
+      </Responsive>
     </Segment>
   );
 };

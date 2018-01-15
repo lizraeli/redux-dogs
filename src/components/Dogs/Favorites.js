@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const DogSegment = styled(Segment)`
   @media (max-width: 768px) {
-    height: 20em;
+    height: 18em;
   }
 
   @media (min-width: 768px) {
