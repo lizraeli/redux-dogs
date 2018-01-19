@@ -1,21 +1,38 @@
 import React from "react";
-import { Header, Segment } from "semantic-ui-react";
+
+import { Segment, Header } from "semantic-ui-react";
+
+import { capWords, capitalize } from "../../utils/";
 
 import { connect } from "react-redux";
 
-import Dog from "../../components/Dogs/Dog";
+import {
+  getRandomDog,
+  getRandomDogWithBreed,
+  getRandomDogWithBreedAndSub,
+  addToFav,
+  removeFromFav
+} from "../../actions";
 
-import { getRandomDog, addToFav, removeFromFav } from "../../actions";
+import Dog from "../../components/Dogs/Dog";
 
 const mapStateToProps = state => {
   return {
-    dog: state.dog
+    dog: state.dog,
+    loading: state.loading.dog,
+    error: state.error.dog
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getNewDog: () => {
+    getDogWithBreedAndSub: (breed, sub) => {
+      dispatch(getRandomDogWithBreedAndSub(breed, sub));
+    },
+    getDogWithBreed: breed => {
+      dispatch(getRandomDogWithBreed(breed));
+    },
+    getDog: () => {
       dispatch(getRandomDog());
     },
     addToFav: dog => {
@@ -27,20 +44,27 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class RandomDog extends React.Component {
+class RandomDogWithBreedAndSub extends React.Component {
   getRandomDog = () => {
-    const { getNewDog } = this.props;
-    getNewDog();
+    const {
+      breed,
+      subBreed,
+      getDogWithBreedAndSub,
+      getDogWithBreed,
+      getDog
+    } = this.props;
+
+    if (breed && subBreed) {
+      getDogWithBreedAndSub(breed, subBreed);
+    } else if (breed) {
+      getDogWithBreed(breed);
+    } else {
+      getDog();
+    }
   };
 
   componentDidMount() {
     this.getRandomDog();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.dog.imageURL === this.props.dog.imageURL) {
-    //   this.getRandomDog();
-    // }
   }
 
   toggleFav = () => {
@@ -53,18 +77,32 @@ class RandomDog extends React.Component {
   };
 
   render() {
-    const { dog } = this.props;
+    const { breed, subBreed, dog, loading, error } = this.props;
+
+    const title =
+      subBreed && breed
+        ? capWords(`${subBreed} ${breed}`)
+        : breed ? capitalize(breed) : "Random Dog";
+
     return (
       <Segment>
         <Header as="h2" textAlign="center">
-          Random Dog Picture
+          {title}
         </Header>
-        <Dog dog={dog} onClick={this.getRandomDog} toggleFav={this.toggleFav} />
+        <Dog
+          dog={dog}
+          loading={loading}
+          error={error}
+          onClick={this.getRandomDog}
+          toggleFav={this.toggleFav}
+        />
       </Segment>
     );
   }
 }
 
-const ConnectedDog = connect(mapStateToProps, mapDispatchToProps)(RandomDog);
+const ConnectedDog = connect(mapStateToProps, mapDispatchToProps)(
+  RandomDogWithBreedAndSub
+);
 
 export default ConnectedDog;

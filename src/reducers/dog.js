@@ -2,22 +2,20 @@ const defaultState = {
   imageURL: "",
   breed: "",
   subBreed: "",
-  isFav: false,
-  error: ""
+  isFav: false
 };
 
 const imageURL = (state = defaultState, action) => {
   switch (action.type) {
-    case "GET_DOG":
+    case "GET_DOG_RECEIVED":
+      return action.dog;
+    case "GET_DOG_ERROR":
       return defaultState;
-    case "SET_DOG":
-      return { ...action.dog, error: "" };
     case "ADD_TO_FAV":
       return { ...state, isFav: true };
     case "REMOVE_FROM_FAV":
       return { ...state, isFav: false };
-    case "GET_DOG_ERROR":
-      return { ...defaultState, error: action.error };
+  
     default:
       return state;
   }

@@ -9,7 +9,9 @@ import Header from "semantic-ui-react/dist/commonjs/elements/Header/Header";
 const mapStateToProps = state => {
   return {
     breeds: state.breeds,
-    breedSearchText: state.breedSearchText
+    breedSearchText: state.breedSearchText,
+    error: state.error.breeds,
+    loading: state.loading.breeds
   };
 };
 
@@ -33,7 +35,7 @@ class DogBreeds extends React.Component {
 
   componentDidMount() {
     const { breeds } = this.props;
-    if (breeds.breedList.length === 0) {
+    if (breeds.length === 0) {
       this.getDogBreeds();
     }
   }
@@ -53,8 +55,13 @@ class DogBreeds extends React.Component {
     );
   };
   render() {
-    const { breeds, breedSearchText, setBreedSearchText } = this.props;
-    const { breedList, error } = breeds;
+    const {
+      breeds,
+      error,
+      loading,
+      breedSearchText,
+      setBreedSearchText
+    } = this.props;
 
     console.log(breeds);
     if (error) {
@@ -68,7 +75,7 @@ class DogBreeds extends React.Component {
       );
     }
 
-    const filteredBreeds = this.filterBreeds(breedList, breedSearchText);
+    const filteredBreeds = this.filterBreeds(breeds, breedSearchText);
 
     return (
       <Segment>
@@ -81,7 +88,7 @@ class DogBreeds extends React.Component {
           value={breedSearchText}
         />
 
-        {breedList.length === 0 ? (
+        {loading ? (
           <Segment basic style={{ paddingTop: "10em" }}>
             <Loader active> Fetching Dog Breeds </Loader>
           </Segment>

@@ -20,7 +20,7 @@ const FilteredSubBreedList = ({ breedName, subBreeds, searchText }) => (
       subName =>
         subName.includes(searchText) ? (
           <List.Item key={subName}>
-            <Link to={`/dogs/breeds/${breedName}/${subName}`}>
+            <Link to={`/dogs/random/${breedName}/${subName}`}>
               <Name>{capitalize(subName)}</Name>
             </Link>
           </List.Item>
@@ -35,7 +35,7 @@ const SubBreedList = ({ breedName, subBreeds }) => (
   <List selection verticalAlign="bottom">
     {subBreeds.map(subName => (
       <List.Item key={subName}>
-        <Link to={`/dogs/breeds/${breedName}/${subName}`}>
+        <Link to={`/dogs/random/${breedName}/${subName}`}>
           <Name>{capitalize(subName)}</Name>
         </Link>
       </List.Item>
@@ -58,7 +58,7 @@ const DogBreedList = ({ breeds, searchText }) => (
         const { name, subBreeds } = breed;
         return (
           <List.Item key={name}>
-            <PaddedLink to={`/dogs/breeds/${name}`}>
+            <PaddedLink to={`/dogs/random/${name}`}>
               <Name>{capitalize(name)}</Name>
             </PaddedLink>
 

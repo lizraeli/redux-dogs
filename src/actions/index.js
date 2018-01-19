@@ -24,18 +24,18 @@ export const getDogError = error => ({
   error
 });
 
-export const setDog = dog => ({
-  type: "SET_DOG",
+export const getDogReceived = dog => ({
+  type: "GET_DOG_RECEIVED",
   dog
-});
-
-export const setBreeds = breeds => ({
-  type: "SET_BREEDS",
-  breeds
 });
 
 export const getBreeds = () => ({
   type: "GET_BREEDS"
+});
+
+export const getBreedsReceived = breeds => ({
+  type: "GET_BREEDS_RECEIVED",
+  breeds
 });
 
 export const getBreedsError = error => ({
@@ -54,7 +54,7 @@ export const getRandomDog = () => {
     dogAPI
       .getRandomDog()
       .then(response => {
-        dispatch(setDog({ imageURL: response.data.message }));
+        dispatch(getDogReceived({ imageURL: response.data.message }));
       })
       .catch(e => {
         dispatch(getDogError(e.message));
@@ -69,7 +69,7 @@ export const getRandomDogWithBreed = breed => {
       .getRandomDogWithBreed(breed)
       .then(response => {
         dispatch(
-          setDog({
+          getDogReceived({
             imageURL: response.data.message,
             breed
           })
@@ -88,7 +88,7 @@ export const getRandomDogWithBreedAndSub = (breed, subBreed) => {
       .getRandomDogWithBreedAndSub(breed, subBreed)
       .then(response => {
         dispatch(
-          setDog({
+          getDogReceived({
             imageURL: response.data.message,
             breed,
             subBreed
@@ -113,7 +113,7 @@ export const getAllBreeds = () => {
           name,
           subBreeds: breedDict[name]
         }));
-        dispatch(setBreeds(allBreeds));
+        dispatch(getBreedsReceived(allBreeds));
       })
       .catch(err => {
         dispatch(getBreedsError(err));

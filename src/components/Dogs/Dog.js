@@ -5,7 +5,6 @@ import {
   Loader,
   Image,
   Responsive,
-  Divider,
   Icon
 } from "semantic-ui-react";
 import styled from "styled-components";
@@ -27,11 +26,11 @@ const DogSegment = styled(Segment)`
   }
 `;
 
-const DogImage = ({ imageURL }) =>
-  imageURL ? (
-    <Image alt="" centered rounded bordered src={imageURL} />
-  ) : (
+const DogImage = ({ imageURL, loading }) =>
+  loading ? (
     <Loader active> Fetching Dog... </Loader>
+  ) : (
+    <Image alt="" centered rounded bordered src={imageURL} />
   );
 
 const ToggleFavButton = ({ isFav, toggleFav, isLoading, ...props }) => (
@@ -47,25 +46,25 @@ const FetchButton = ({ onClick, isLoading, ...props }) => (
   </Button>
 );
 
-const Dog = ({ dog, onClick, toggleFav }) => {
-  const { imageURL, error, isFav } = dog;
+const Dog = ({ dog, onClick, toggleFav, error, loading }) => {
+  const { imageURL, isFav } = dog;
   return (
     <Segment>
       <DogSegment basic>
         {error ? (
           `Error Fetching Dog: ${error} `
         ) : (
-          <DogImage imageURL={imageURL} />
+          <DogImage imageURL={imageURL} loading={loading} />
         )}
       </DogSegment>
       <Responsive minWidth={768} as={Segment} basic clearing>
         <ToggleFavButton
           isFav={isFav}
           toggleFav={toggleFav}
-          isLoading={!imageURL}
+          isLoading={loading}
           size="large"
         />
-        <FetchButton onClick={onClick} isLoading={!imageURL} size="large" />
+        <FetchButton onClick={onClick} isLoading={loading} size="large" />
       </Responsive>
 
       <Responsive maxWidth={768} as={Segment} basic clearing>
@@ -73,11 +72,11 @@ const Dog = ({ dog, onClick, toggleFav }) => {
           <ToggleFavButton
             isFav={isFav}
             toggleFav={toggleFav}
-            isLoading={!imageURL}
+            isLoading={loading}
             color="grey"
           />
 
-          <FetchButton onClick={onClick} isLoading={!imageURL} />
+          <FetchButton onClick={onClick} isLoading={loading} />
         </Button.Group>
       </Responsive>
     </Segment>
