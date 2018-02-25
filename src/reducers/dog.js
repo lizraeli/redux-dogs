@@ -5,7 +5,7 @@ const defaultState = {
   isFav: false
 };
 
-const imageURL = (state = defaultState, action) => {
+const dog = (state = defaultState, action) => {
   switch (action.type) {
     case "GET_DOG_RECEIVED":
       return action.dog;
@@ -15,10 +15,10 @@ const imageURL = (state = defaultState, action) => {
       return { ...state, isFav: true };
     case "REMOVE_FROM_FAV":
       return { ...state, isFav: false };
-  
+
     default:
       return state;
   }
 };
 
-export default imageURL;
+export default dog;
